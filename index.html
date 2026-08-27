@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>2026孝感技工学校校服投票</title>
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
+  background: #F0F2F5;
+  color: #1A202C;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+img { display: block; max-width: 100%; }
+button { font-family: inherit; cursor: pointer; border: none; background: none; }
+:root {
+  --navy: #1A365D;
+  --navy-light: #2A4A7F;
+  --gold: #D69E2E;
+  --gold-dark: #B7791F;
+  --card: #FFFFFF;
+  --text: #1A202C;
+  --text-secondary: #718096;
+  --border: #E2E8F0;
+  --green: #2F855A;
+}
+.app-header {
+  background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+  color: #fff;
+  padding: 20px 16px 18px;
+  text-align: center;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 12px rgba(26, 54, 93, 0.25);
+}
+.app-header .school-name {
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 2px;
+  opacity: 0.85;
+  margin-bottom: 4px;
+}
+.app-header h1 {
+  font-family: "Songti SC", "STSong", "SimSun", "Noto Serif CJK SC", serif;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+.app-header .header-line {
+  width: 40px;
+  height: 3px;
+  background: var(--gold);
+  margin: 10px auto 0;
+  border-radius: 2px;
+}
+.category-tabs {
+  display: flex;
+  gap: 0;
+  background: var(--card);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 86px;
+  z-index: 99;
+}
+.category-tab {
+  flex: 1;
+  padding: 14px 8px;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  text-align: center;
+  border-bottom: 3px solid transparent;
+  transition: all 0.2s;
+}
+.category-tab.active {
+  color: var(--navy);
+  border-bottom-color: var(--gold);
+  font-weight: 700;
+}
+.main-content {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 16px 12px 40px;
+}
+.notice-bar {
+  background: #EBF4FF;
+  border: 1px solid #BEE3F8;
+  color: #2C5282;
+  font-size: 13px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.notice-bar svg { flex-shrink: 0; }
+.notice-bar.voted {
+  background: #F0FFF4;
+  border-color: #9AE6B4;
+  color: #276749;
+}
+.candidate-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+@media (min-width: 600px) {
+  .candidate-grid { grid-template-columns: repeat(3, 1fr); gap: 16px; }
+}
+@media (min-width: 900px) {
+  .candidate-grid { grid-template-columns: repeat(4, 1fr); }
+}
+.candidate-card {
+  background: var(--card);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  transition: transform 0.2s, box-shadow 0.2s;
+  display: flex;
+  flex-direction: column;
+}
+.candidate-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(26, 54, 93, 0.12);
+}
+.card-image-wrap {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  background: #F7FAFC;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  position: relative;
+}
+.card-image-wrap img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+.card-badge {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  background: var(--navy);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 6px;
+  letter-spacing: 1px;
+}
+.card-info {
+  padding: 10px 12px 12px;
+  text-align: center;
+}
+.card-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 6px;
+}
+.card-votes {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-bottom: 10px;
+}
+.card-votes .vote-count {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--navy);
+}
+.vote-btn {
+  width: 100%;
+  padding: 9px 0;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 8px;
+  background: var(--gold);
+  color: #fff;
+  transition: background 0.2s, transform 0.1s;
+  letter-spacing: 1px;
+}
+.vote-btn:hover:not(:disabled) { background: var(--gold-dark); }
+.vote-btn:active:not(:disabled) { transform: scale(0.97); }
+.vote-btn:disabled {
+  background: #CBD5E0;
+  color: #718096;
+  cursor: not-allowed;
+}
+.result-section { display: none; }
+.result-section.active { display: block; }
+.result-summary {
+  background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+  border-radius: 12px;
+  padding: 20px;
+  color: #fff;
+  text-align: center;
+  margin-bottom: 16px;
+}
+.result-summary .crown {
+  font-size: 13px;
+  opacity: 0.8;
+  letter-spacing: 2px;
+  margin-bottom: 8px;
+}
+.result-summary .winner-name {
+  font-family: "Songti SC", "STSong", "SimSun", "Noto Serif CJK SC", serif;
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.result-summary .winner-votes {
+  font-size: 14px;
+  opacity: 0.9;
+}
+.result-summary .winner-votes strong {
+  font-size: 24px;
+  color: var(--gold);
+}
+.rank-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.rank-item {
+  background: var(--card);
+  border-radius: 10px;
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+.rank-item.rank-1 {
+  border: 2px solid var(--gold);
+  background: #FFFFF0;
+}
+.rank-number {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #E2E8F0;
+  color: var(--text-secondary);
+  font-size: 14px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.rank-item.rank-1 .rank-number { background: var(--gold); color: #fff; }
+.rank-item.rank-2 .rank-number { background: #A0AEC0; color: #fff; }
+.rank-item.rank-3 .rank-number { background: #C05621; color: #fff; }
+.rank-thumb {
+  width: 56px;
+  height: 56px;
+  background: #F7FAFC;
+  border-radius: 8px;
+  overflow: hidden;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+}
+.rank-thumb img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+.rank-info { flex: 1; min-width: 0; }
+.rank-label { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+.rank-bar-wrap {
+  height: 8px;
+  background: #EDF2F7;
+  border-radius: 4px;
+  overflow: hidden;
+}
+.rank-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--navy-light), var(--gold));
+  border-radius: 4px;
+  transition: width 0.6s ease;
+}
+.rank-votes {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--navy);
+  flex-shrink: 0;
+  min-width: 50px;
+  text-align: right;
+}
+.toast {
+  position: fixed;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: rgba(26, 32, 44, 0.92);
+  color: #fff;
+  padding: 12px 24px;
+  border-radius: 10px;
+  font-size: 14px;
+  z-index: 1000;
+  opacity: 0;
+  transition: opacity 0.3s, transform 0.3s;
+  pointer-events: none;
+  white-space: nowrap;
+  max-width: 90vw;
+}
+.toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+.loading-wrap {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--text-secondary);
+  font-size: 14px;
+}
+.loading-spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid var(--border);
+  border-top-color: var(--navy);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin: 0 auto 12px;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.live-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  color: var(--green);
+  margin-left: 8px;
+}
+.live-dot {
+  width: 7px;
+  height: 7px;
+  background: var(--green);
+  border-radius: 50%;
+  animation: pulse 1.5s infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+.app-footer {
+  text-align: center;
+  padding: 20px;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+</style>
+</head>
+<body>
+
+<header class="app-header">
+  <div class="school-name">孝感技工学校</div>
+  <h1>2026 校服方案投票<span class="live-indicator"><span class="live-dot"></span>实时</span></h1>
+  <div class="header-line"></div>
+</header>
+
+<nav class="category-tabs" id="categoryTabs">
+  <button class="category-tab active" data-cat="uniform">校服选择</button>
+  <button class="category-tab" data-cat="military">军训服选择</button>
+</nav>
+
+<main class="main-content">
+  <section id="voteView">
+    <div class="notice-bar" id="noticeBar">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      <span>每个类别限投 1 票，系统将检测设备与网络</span>
+    </div>
+    <div class="candidate-grid" id="candidateGrid"></div>
+  </section>
+
+  <section class="result-section" id="resultView">
+    <div class="result-summary" id="resultSummary"></div>
+    <div class="rank-list" id="rankList"></div>
+  </section>
+</main>
+
+<footer class="app-footer">孝感技工学校 &copy; 2026</footer>
+<div class="toast" id="toast"></div>
+
+<script>
+var API_URL = "https://api.restful-api.dev/objects/ff8081819ff5b11001a043b066113877";
+var STORAGE_KEY = "xg_vote_2026_v2";
+var POLL_INTERVAL = 3000;
+
+var CANDIDATES = {
+  uniform: [
+    { id: "A", name: "方案 A", img: "https://aka.doubaocdn.com/s/y0yAN1Y7VP" },
+    { id: "B", name: "方案 B", img: "https://aka.doubaocdn.com/s/N1ARq8u4VV" },
+    { id: "C", name: "方案 C", img: "https://aka.doubaocdn.com/s/gTF6MhrB8Z" },
+    { id: "D", name: "方案 D", img: "https://aka.doubaocdn.com/s/S0ZmU5bnMH" },
+    { id: "E", name: "方案 E", img: "https://aka.doubaocdn.com/s/7NjLIBIPC1" },
+    { id: "F", name: "方案 F", img: "https://aka.doubaocdn.com/s/wVSogfFP3m" },
+    { id: "G", name: "方案 G", img: "https://aka.doubaocdn.com/s/SYFb2Ckcws" }
+  ],
+  military: [
+    { id: "H", name: "方案 H", img: "https://aka.doubaocdn.com/s/T9AV2Sk529" },
+    { id: "I", name: "方案 I", img: "https://aka.doubaocdn.com/s/Kd4F2jhJvF" },
+    { id: "J", name: "方案 J", img: "https://aka.doubaocdn.com/s/k17n7cVuIL" }
+  ]
+};
+var CAT_NAMES = { uniform: "校服选择", military: "军训服选择" };
+
+var state = {
+  currentCat: "uniform",
+  votes: { uniform: {}, military: {} },
+  voters: { uniform: [], military: [] },
+  voterHash: null,
+  deviceInfo: null,
+  voted: { uniform: false, military: false },
+  loading: true
+};
+
+function stableHash(str) {
+  var hash = 5381;
+  for (var i = 0; i < str.length; i++) {
+    hash = ((hash << 5) + hash) + str.charCodeAt(i);
+    hash = hash & hash;
+  }
+  return "v" + Math.abs(hash).toString(36);
+}
+
+function detectDevice() {
+  var ua = navigator.userAgent;
+  var brand = "未知设备", model = "", os = "";
+  if (/iPhone/.test(ua)) {
+    brand = "Apple"; model = "iPhone";
+    var sw = screen.width, sh = screen.height;
+    if (sw === 430 || sh === 932) model = "iPhone 14/15 Pro Max";
+    else if (sw === 428 || sh === 926) model = "iPhone 12/13/14 Pro Max";
+    else if (sw === 414 || sh === 896) model = "iPhone XR/11";
+    else if (sw === 414 || sh === 736) model = "iPhone 6/7/8 Plus";
+    else if (sw === 390 || sh === 844) model = "iPhone 12/13/14";
+    else if (sw === 393 || sh === 852) model = "iPhone 14/15 Pro";
+    else if (sw === 375 || sh === 812) model = "iPhone X/XS/11 Pro";
+    else if (sw === 375 || sh === 667) model = "iPhone 6/7/8";
+    else if (sw === 320 || sh === 568) model = "iPhone 5/SE";
+    var iosv = ua.match(/OS ([\d_]+)/);
+    os = iosv ? "iOS " + iosv[1].replace(/_/g, ".") : "iOS";
+  } else if (/iPad/.test(ua)) {
+    brand = "Apple"; model = "iPad"; os = "iPadOS";
+  } else if (/Android/.test(ua)) {
+    var match = ua.match(/Android\s+[\d.]+;\s*([^;)]+?)(?:\s+Build|\)|;)/);
+    if (match && match[1]) {
+      model = match[1].trim();
+      var brands = {
+        "HUAWEI":"华为","HONOR":"荣耀","XIAOMI":"小米","REDMI":"红米",
+        "OPPO":"OPPO","vivo":"vivo","VIVO":"vivo","ONEPLUS":"一加",
+        "REALME":"realme","SAMSUNG":"三星","SM-":"三星","MEIZU":"魅族",
+        "NUBIA":"努比亚","ZTE":"中兴","LENOVO":"联想","MOTO":"摩托罗拉",
+        "NOKIA":"诺基亚","SONY":"索尼","Pixel":"Pixel"
+      };
+      brand = "安卓设备";
+      for (var key in brands) {
+        if (model.toUpperCase().indexOf(key) !== -1 || ua.toUpperCase().indexOf(key) !== -1) {
+          brand = brands[key]; break;
+        }
+      }
+    } else { model = "Android设备"; }
+    var av = ua.match(/Android\s+([\d.]+)/);
+    os = av ? "Android " + av[1] : "Android";
+  } else if (/Windows/.test(ua)) {
+    brand = "Windows"; model = "PC"; os = "Windows";
+  } else if (/Macintosh/.test(ua)) {
+    brand = "Apple"; model = "Mac"; os = "macOS";
+  } else if (/Linux/.test(ua)) {
+    brand = "Linux"; model = "PC"; os = "Linux";
+  }
+  return {
+    brand: brand, model: model, os: os,
+    screen: screen.width + "x" + screen.height,
+    language: navigator.language || ""
+  };
+}
+
+function fetchIP() {
+  return fetch("https://api.ip.sb/jsonip", { mode: "cors" })
+    .then(function(r) { return r.json(); })
+    .then(function(d) { return d.ip || ""; })
+    .catch(function() {
+      return fetch("https://ipinfo.io/json", { mode: "cors" })
+        .then(function(r) { return r.json(); })
+        .then(function(d) { return d.ip || ""; })
+        .catch(function() { return ""; });
+    });
+}
+
+function buildVoterHash(ip, device) {
+  var raw = ip + "|" + device.model + "|" + device.os + "|" + device.screen + "|" + navigator.language;
+  return stableHash(raw);
+}
+
+function fetchVotes() {
+  return fetch(API_URL)
+    .then(function(r) { return r.json(); })
+    .then(function(res) {
+      if (res && res.data) {
+        state.votes.uniform = res.data.uniform || {};
+        state.votes.military = res.data.military || {};
+        state.voters.uniform = res.data.voters_uniform || [];
+        state.voters.military = res.data.voters_military || [];
+      }
+      state.loading = false;
+    })
+    .catch(function() { state.loading = false; });
+}
+
+function submitVote(cat, optionId) {
+  return fetch(API_URL)
+    .then(function(r) { return r.json(); })
+    .then(function(res) {
+      var data = res.data || {};
+      if (!data.uniform) data.uniform = {};
+      if (!data.military) data.military = {};
+      if (!data.voters_uniform) data.voters_uniform = [];
+      if (!data.voters_military) data.voters_military = [];
+      var voterKey = cat === "uniform" ? "voters_uniform" : "voters_military";
+      if (data[voterKey].indexOf(state.voterHash) !== -1) {
+        throw new Error("ALREADY_VOTED");
+      }
+      data[voterKey].push(state.voterHash);
+      data[cat][optionId] = (data[cat][optionId] || 0) + 1;
+      return fetch(API_URL, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name: "xiaogan-uniform-vote-2026", data: data })
+      });
+    })
+    .then(function(r) { return r.json(); })
+    .then(function(res) {
+      if (res && res.data) {
+        state.votes.uniform = res.data.uniform || {};
+        state.votes.military = res.data.military || {};
+        state.voters.uniform = res.data.voters_uniform || [];
+        state.voters.military = res.data.voters_military || [];
+      }
+    });
+}
+
+function checkVoted() {
+  if (!state.voterHash) return;
+  state.voted.uniform = state.voters.uniform.indexOf(state.voterHash) !== -1;
+  state.voted.military = state.voters.military.indexOf(state.voterHash) !== -1;
+  try {
+    var saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) {
+      var d = JSON.parse(saved);
+      if (d.uniform) state.voted.uniform = true;
+      if (d.military) state.voted.military = true;
+    }
+  } catch (e) {}
+}
+
+var toastTimer = null;
+function showToast(msg) {
+  var t = document.getElementById("toast");
+  t.textContent = msg;
+  t.classList.add("show");
+  if (toastTimer) clearTimeout(toastTimer);
+  toastTimer = setTimeout(function() { t.classList.remove("show"); }, 2500);
+}
+
+function renderVoteView() {
+  var grid = document.getElementById("candidateGrid");
+  var cat = state.currentCat;
+  var candidates = CANDIDATES[cat];
+  var votes = state.votes[cat] || {};
+  var hasVoted = state.voted[cat];
+  var notice = document.getElementById("noticeBar");
+  if (hasVoted) {
+    notice.className = "notice-bar voted";
+    notice.querySelector("span").textContent = "您已完成" + CAT_NAMES[cat] + "投票（" + state.deviceInfo.brand + " " + state.deviceInfo.model + "）";
+  } else {
+    notice.className = "notice-bar";
+    notice.querySelector("span").textContent = "每个类别限投 1 票，系统将检测设备与网络";
+  }
+  var html = "";
+  candidates.forEach(function(c) {
+    var count = votes[c.id] || 0;
+    var btnText = hasVoted ? "已投过" : "投这一票";
+    html += '<div class="candidate-card">' +
+      '<div class="card-image-wrap">' +
+        '<span class="card-badge">' + c.id + '</span>' +
+        '<img src="' + c.img + '" alt="' + c.name + '" loading="lazy">' +
+      '</div>' +
+      '<div class="card-info">' +
+        '<div class="card-name">' + c.name + '</div>' +
+        '<div class="card-votes"><span class="vote-count">' + count + '</span> 票</div>' +
+        '<button class="vote-btn" data-id="' + c.id + '"' + (hasVoted ? " disabled" : "") + '>' + btnText + '</button>' +
+      '</div>' +
+    '</div>';
+  });
+  grid.innerHTML = html;
+  if (!hasVoted) {
+    grid.querySelectorAll(".vote-btn").forEach(function(btn) {
+      btn.addEventListener("click", function() {
+        var optionId = this.getAttribute("data-id");
+        if (state.voted[cat] || !state.voterHash) return;
+        this.disabled = true;
+        this.textContent = "提交中...";
+        submitVote(cat, optionId)
+          .then(function() {
+            state.voted[cat] = true;
+            try {
+              var d = {};
+              var s = localStorage.getItem(STORAGE_KEY);
+              if (s) d = JSON.parse(s);
+              d[cat] = true;
+              localStorage.setItem(STORAGE_KEY, JSON.stringify(d));
+            } catch (e) {}
+            showToast("投票成功，感谢参与！");
+            renderVoteView();
+          })
+          .catch(function(err) {
+            if (err.message === "ALREADY_VOTED") {
+              state.voted[cat] = true;
+              showToast("您已经投过票了");
+            } else {
+              showToast("网络异常，请重试");
+            }
+            renderVoteView();
+          });
+      });
+    });
+  }
+}
+
+function renderResultView() {
+  var cat = state.currentCat;
+  var candidates = CANDIDATES[cat];
+  var votes = state.votes[cat] || {};
+  var sorted = candidates.map(function(c) {
+    return { id: c.id, name: c.name, img: c.img, count: votes[c.id] || 0 };
+  }).sort(function(a, b) { return b.count - a.count; });
+  var total = sorted.reduce(function(s, c) { return s + c.count; }, 0);
+  var winner = sorted[0];
+  document.getElementById("resultSummary").innerHTML =
+    '<div class="crown">当前最高票</div>' +
+    '<div class="winner-name">' + winner.name + '</div>' +
+    '<div class="winner-votes"><strong>' + winner.count + '</strong> 票' +
+    (total > 0 ? ' · 占比 ' + Math.round(winner.count / total * 100) + '%' : '') + '</div>';
+  var html = "";
+  sorted.forEach(function(c, i) {
+    var pct = total > 0 ? Math.round(c.count / total * 100) : 0;
+    html += '<div class="rank-item rank-' + (i + 1) + '">' +
+      '<div class="rank-number">' + (i + 1) + '</div>' +
+      '<div class="rank-thumb"><img src="' + c.img + '" alt="' + c.name + '"></div>' +
+      '<div class="rank-info">' +
+        '<div class="rank-label">' + c.name + '</div>' +
+        '<div class="rank-bar-wrap"><div class="rank-bar" style="width:' + pct + '%"></div></div>' +
+      '</div>' +
+      '<div class="rank-votes">' + c.count + ' 票</div>' +
+    '</div>';
+  });
+  document.getElementById("rankList").innerHTML = html;
+}
+
+function render() {
+  var hash = location.hash || "#/vote";
+  var isResult = hash.indexOf("result") !== -1;
+  document.getElementById("voteView").style.display = isResult ? "none" : "block";
+  document.getElementById("resultView").classList.toggle("active", isResult);
+  document.querySelectorAll(".category-tab").forEach(function(tab) {
+    tab.classList.toggle("active", tab.getAttribute("data-cat") === state.currentCat);
+  });
+  if (state.loading) {
+    var loadingHtml = '<div class="loading-wrap" style="grid-column:1/-1"><div class="loading-spinner"></div>正在检测设备与网络...</div>';
+    if (isResult) {
+      document.getElementById("rankList").innerHTML = loadingHtml;
+    } else {
+      document.getElementById("candidateGrid").innerHTML = loadingHtml;
+    }
+    return;
+  }
+  if (isResult) renderResultView();
+  else renderVoteView();
+}
+
+function refreshData() {
+  return fetchVotes().then(function() {
+    checkVoted();
+    if (!state.loading) render();
+  });
+}
+
+document.getElementById("categoryTabs").addEventListener("click", function(e) {
+  var tab = e.target.closest(".category-tab");
+  if (!tab) return;
+  state.currentCat = tab.getAttribute("data-cat");
+  render();
+});
+window.addEventListener("hashchange", render);
+document.addEventListener("visibilitychange", function() {
+  if (!document.hidden) refreshData();
+});
+
+state.deviceInfo = detectDevice();
+render();
+
+fetchIP().then(function(ip) {
+  state.deviceInfo.ip = ip || "未知";
+  state.voterHash = buildVoterHash(ip || "unknown", state.deviceInfo);
+  return refreshData();
+}).then(function() {
+  setInterval(refreshData, POLL_INTERVAL);
+});
+</script>
+</body>
+</html>
